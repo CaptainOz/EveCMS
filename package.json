@@ -1,0 +1,33 @@
+{
+    "name"              : "EveCMS",
+    "version"           : "0.0.1",
+    "author"            : "Oz Wolfe <oz@lifewanted.com>",
+    "description"       : "Eve Online Corporation Management Suite",
+    "contributors"      : [],
+    "scripts"           : {
+        "start" : "node ./start.js",
+        "test"  : "nodeunit ./tests/"
+    },
+    "main"              : "./lib/evecms.js",
+    "repository"        : {
+        "type"  : "git",
+        "url"   : "https://github.com/CaptainOz/EveCMS.git"
+    },
+    "keywords"          : [
+        "eve online",
+        "gaming",
+        "cms",
+        "killboard"
+    ],
+    "dependencies"      : {
+        "express"   : "2.5.x",
+        "mysql"     : "0.9.x",
+        "socket.io" : "0.9.x"
+    },
+    "devDependencies"   : {
+        "nodeunit"  : "0.7.x"
+    },
+    "engine"            : {
+        "node" : "0.6.x"
+    }
+}
