@@ -5,7 +5,7 @@
     "description"       : "Eve Online Corporation Management Suite",
     "contributors"      : [],
     "scripts"           : {
-        "start" : "node ./start.js",
+        "start" : "sudo node ./start.js",
         "test"  : "nodeunit ./tests/"
     },
     "main"              : "./lib/evecms.js",
