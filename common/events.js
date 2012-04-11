@@ -34,6 +34,11 @@ var events = (function(){
                 arguments.shift();
                 args = arguments;
                 var listenerSet = _getListenerSet.call( this, event );
+                if( event == 'error' && listenerSet.length === 0 ){
+                    var error = new Error( 'Error emitted without listener.' );
+                    error.data = args;
+                    throw error;
+                }
                 for( var i in listenerSet ){
                     listenerSet[i].func.apply( null, args );
                     if( listenerSet[i].once ){
