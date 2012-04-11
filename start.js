@@ -14,6 +14,9 @@ var DIR_ROOT    = __dirname + '/';
 var DIR_COMMON  = DIR_ROOT + 'common/';
 var DIR_SCRIPTS = DIR_ROOT + 'static/script/';
 
+var ROUTE_SCRIPTS   = /\/scripts\/(?!common)(.+)/;
+var ROUTE_COMMON    = '/scripts/common';
+
 // --- FUNCTIONS --- //
 
 function _sendJSFiles( dirPath, out ){
@@ -51,10 +54,10 @@ app.configure( 'development', function(){
     );
 
     // In dev mode we send all the files concatenated together.
-    app.get( '/scripts/:module', function( req, res ){
-        _sendJSFiles( DIR_SCRIPTS + req.params.module, res );
+    app.get( ROUTE_SCRIPTS, function( req, res ){
+        _sendJSFiles( DIR_SCRIPTS + req.params[0], res );
     });
-    app.get( '/scripts/common', function( req, res ){
+    app.get( ROUTE_COMMON, function( req, res ){
         _sendJSFiles( DIR_COMMON, res );
     });
 });
@@ -70,10 +73,10 @@ app.configure( 'production', function(){
 
     // In production we send the minified, zipped version of the modules.
     var jsExt = '.min.js.gz';
-    app.get( '/scripts/:module', function( req, res ){
+    app.get( ROUTE_SCRIPTS, function( req, res ){
         res.sendfile( DIR_SCRIPTS + req.params.module + jsExt );
     });
-    app.get( '/scripts/common', function( req, res ){
+    app.get( ROUTE_COMMON, function( req, res ){
         res.sendfile( DIR_COMMON + 'common' + jsExt );
     });
 });
