@@ -2,6 +2,7 @@
 // --- IMPORTS --- //
 
 var express = require( 'express'            );
+var expose  = require( 'express-expose'     );
 var app     = express.createServer();
 var io      = require( 'socket.io'          ).listen( app );
 var evecms  = require( './lib/evecms.js'    );
@@ -9,7 +10,29 @@ var util    = require( './lib/util.js'      );
 
 // --- CONSTANTS --- //
 
-var DIR_SCRIPTS = __dirname + '/static/script/';
+var DIR_ROOT    = __dirname + '/';
+var DIR_COMMON  = DIR_ROOT + 'common/';
+var DIR_SCRIPTS = DIR_ROOT + 'static/script/';
+
+// --- FUNCTIONS --- //
+
+function _sendJSFiles( dirPath, out ){
+    util.sendDirectoryContents( dirPath, /\.js$/, out )
+        .once( 'file', function(){
+            out.writeHead( 200, { 'Content-Type' : 'application/javascript' } );
+        }).on( 'file', function( dirPath, filename ){
+            out.write(
+                '\n\n'                                                                  +
+                '// ------------------------------------------------------------ //\n'  +
+                '// ' + dirPath + '/' + filename + '\n'                                 +
+                '// ------------------------------------------------------------ //\n\n'
+            );
+        }).once( 'error', function( err ){
+            console.log( err );
+            out.writeHead( 404 );
+            out.end();
+        });
+}
 
 // --- UNIVERSAL CONFIGURATION --- //
 
@@ -29,23 +52,11 @@ app.configure( 'development', function(){
 
     // In dev mode we send all the files concatenated together.
     app.get( '/scripts/:module', function( req, res ){
-        util.sendDirectoryContents( DIR_SCRIPTS + req.params.module, /\.js$/, res )
-            .once( 'file', function(){
-                res.writeHead( 200, { 'Content-Type' : 'application/javascript' } );
-            }).on( 'file', function( dirPath, filename ){
-                res.write(
-                    '\n\n'                                                                  +
-                    '// ------------------------------------------------------------ //\n'  +
-                    '// ' + dirPath + '/' + filename + '\n'                                 +
-                    '// ------------------------------------------------------------ //\n\n'
-                );
-            }).once( 'error', function( err ){
-                console.log( err );
-                res.writeHead( 404 );
-                res.end();
-            });
+        _sendJSFiles( DIR_SCRIPTS + req.params.module, res );
     });
-
+    app.get( '/scripts/common', function( req, res ){
+        _sendJSFiles( DIR_COMMON, res );
+    });
 });
 
 // --- PRODUCTION CONFIGURATION --- //
@@ -58,8 +69,12 @@ app.configure( 'production', function(){
     );
 
     // In production we send the minified, zipped version of the modules.
+    var jsExt = '.min.js.gz';
     app.get( '/scripts/:module', function( req, res ){
-        res.sendfile( DIR_SCRIPTS + req.params.module + '.min.js.gz' );
+        res.sendfile( DIR_SCRIPTS + req.params.module + jsExt );
+    });
+    app.get( '/scripts/common', function( req, res ){
+        res.sendfile( DIR_COMMON + 'common' + jsExt );
     });
 });
 
@@ -72,7 +87,7 @@ app.get( '/', function( req, res ){
 // --- SOCKET.IO --- //
 
 io.sockets.on( 'connection', function( socket ){
-    socket.emit( 'news', { 'hello' : 'world' } );
+    socket.emit();
     socket.on( 'response', function( data ){
         console.log( data );
     });

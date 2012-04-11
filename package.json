@@ -20,9 +20,10 @@
         "killboard"
     ],
     "dependencies"      : {
-        "express"   : "2.5.x",
-        "mysql"     : "0.9.x",
-        "socket.io" : "0.9.x"
+        "express"           : "2.5.x",
+        "express-expose"    : "0.2.x",
+        "mysql"             : "0.9.x",
+        "socket.io"         : "0.9.x"
     },
     "devDependencies"   : {
         "nodeunit"  : "0.7.x"
