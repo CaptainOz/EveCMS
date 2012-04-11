@@ -10,7 +10,7 @@ EveCMS.Application = (function(){
     Application._init = function(){
         _instance = this;
 
-        var socketWorker = new Worker( '/script/socketWorker/socketWorker.js' );
+        var socketWorker = new Worker( '/scripts/socketWorker' );
         socketWorker.addEventListener( 'message', _onSocketWorkerMessage.bind( this ) );
         socketWorker.postMessage();
         this._socketWorker = socketWorker;
