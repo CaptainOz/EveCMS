@@ -34,10 +34,10 @@ app.configure( 'development', function(){
                 res.writeHead( 200, { 'Content-Type' : 'application/javascript' } );
             }).on( 'file', function( dirPath, filename ){
                 res.write(
-                    '\n'                                                                    +
+                    '\n\n'                                                                  +
                     '// ------------------------------------------------------------ //\n'  +
                     '// ' + dirPath + '/' + filename + '\n'                                 +
-                    '// ------------------------------------------------------------ //\n'
+                    '// ------------------------------------------------------------ //\n\n'
                 );
             }).once( 'error', function( err ){
                 console.log( err );
