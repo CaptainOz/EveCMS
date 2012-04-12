@@ -6,6 +6,6 @@ if( typeof module   == 'object'     &&
 ){
     module.exports = {
         'events'    : require( './events.js'    ),
-        'util'      : require( './utilities.js' )
+        'util'      : require( './001.utilities.js' )
     };
 }
