@@ -17,7 +17,9 @@
         "eve online",
         "gaming",
         "cms",
-        "killboard"
+        "killboard",
+        "internet spaceships",
+        "serious business"
     ],
     "dependencies"      : {
         "express"           : "2.5.x",
