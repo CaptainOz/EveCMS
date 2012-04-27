@@ -2,3 +2,10 @@
 .settings.xml
 node_modules/
 
+# Ignore Eve icons.
+static/img/Types
+static/img/Renders
+static/img/Players
+static/img/Icons
+static/img/Corporations
+
