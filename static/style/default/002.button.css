@@ -5,10 +5,11 @@
     padding: 4px 6px;
     height: 1.25em;
     cursor: pointer;
-    user-select: none;
     -webkit-user-select: none;
-    user-drag: none;
+    -moz-user-select: none;
+    user-select: none;
     -webkit-user-drag: none;
+    user-drag: none;
 }
 
 .button:hover {
@@ -24,10 +25,11 @@
 }
 
 .button * {
-    user-select: none;
     -webkit-user-select: none;
-    user-drag: none;
+    -moz-user-select: none;
+    user-select: none;
     -webkit-user-drag: none;
+    user-drag: none;
 }
 
 .combo-button {

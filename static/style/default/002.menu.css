@@ -8,15 +8,12 @@
     cursor: pointer;
     padding: 5px;
     border-radius: 1em;
-    user-select: none;
     -webkit-user-select: none;
-    user-drag: none;
+    -moz-user-select: none;
+    user-select: none;
     -webkit-user-drag: none;
+    user-drag: none;
     border: 1px solid transparent;
-}
-
-.menu > .active {
-    
 }
 
 .menu > :hover {

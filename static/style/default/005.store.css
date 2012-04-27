@@ -39,15 +39,13 @@
     clear: both;
     overflow: hidden;
     float: left;
-    user-select: none;
     -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
 }
 
 .store > .items .controls .quantity {
     width: 2.8em;
-}
-
-.store > .items .controls .buy {
 }
 
 .store > .items .icon {
