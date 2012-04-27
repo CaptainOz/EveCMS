@@ -1,19 +1,20 @@
 
+/// @namespace
 var EveCMS = {};
+
+/// @class
 EveCMS.Application = (function(){
+    "use strict";
     var _instance = null;
     
     function Application(){
         // TODO: Bring over inheritance utilities from RiydaJS.
         Application._init.call( this );
-    };
+    }
     Application._init = function(){
         _instance = this;
-
-        var socketWorker = new Worker( '/scripts/socketWorker' );
-        socketWorker.addEventListener( 'message', _onSocketWorkerMessage.bind( this ) );
-        socketWorker.postMessage();
-        this._socketWorker = socketWorker;
+        var socket = this._socket = io.connect();
+        socket.on( 'connect', _onSocketConnect.bind( this ) );
     };
     var ApplicationProto = Application.prototype;
 
@@ -21,9 +22,10 @@ EveCMS.Application = (function(){
         return _instance;
     };
 
-    function _onSocketWorkerMessage( message ){
-        console.log( message.data );
-        this._socketWorker.postMessage( { my : 'response from other thread' } );
+    /// @this {Application}
+    function _onSocketConnect(){
+        console.log( 'Connected' );
+        this._socket.emit( 'response', { hello : 'server' } );
     }
 
     return Application;
