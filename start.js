@@ -12,7 +12,7 @@ var paths   = require( './lib/paths.js'     );
 var ROUTE_SCRIPTS   = /\/scripts\/(?!common)(.+)/;
 var ROUTE_COMMON    = '/scripts/common';
 var ROUTE_STYLES    = '/style/:module';
-var ROUTE_IMAGES    = '/img/:image';
+var ROUTE_IMAGES    = /\/img\/(.+)/;
 
 // --- FUNCTIONS --- //
 
@@ -38,7 +38,7 @@ function _sendJSFiles( dirPath, out ){
 
 app.configure(function(){
     app.use( express.bodyParser() );
-    app.use( express['static']( __dirname + '/static' ) );
+//    app.use( express['static']( __dirname + '/static' ) );
 });
 
 // --- DEV CONFIGURATION --- //
@@ -52,13 +52,16 @@ app.configure( 'development', function(){
 
     // In dev mode we send all the files concatenated together.
     app.get( ROUTE_SCRIPTS, function( req, res ){
+        console.log( "Retrieving scripts " + req.params[0] );
         _sendJSFiles( paths.DIR_SCRIPTS + req.params[0], res );
     });
     app.get( ROUTE_COMMON, function( req, res ){
+        console.log( "Retrieving common scripts" );
         _sendJSFiles( paths.DIR_COMMON, res );
     });
     app.get( ROUTE_STYLES, function( req, res ){
-        if( req.params.group == 'user' ){
+        console.log( "Retrieving css " + req.params.module );
+        if( req.params.module == 'user' ){
             evecms.getInstance().sendUserStyles( res );
         }
         else {
@@ -105,12 +108,14 @@ app.configure( 'production', function(){
 // --- ROUTING --- //
 
 app.get( ROUTE_IMAGES, function( req, res ){
-    res.sendfile( paths.DIR_IMAGES + req.params.image );
+    console.log( "Retrieving image: " + req.params[0] );
+    res.sendfile( paths.DIR_IMAGES + req.params[0] );
 });
 
 // Everything that isn't JS, CSS, or images gets the index page. Follow up requests through
 // socket.io will handle the specific needs of the page.
-app.get( /\/(?!scripts|style|img).*/, function( req, res ){
+app.get( /^\/(?!img|scripts|style|favicon)/, function( req, res ){
+    console.log( "Retrieving index: " + req.path );
     res.sendfile( __dirname + '/static/index.html' );
 });
 
