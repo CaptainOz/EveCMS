@@ -5,17 +5,14 @@ var express = require( 'express'            );
 var app     = express.createServer();
 var evecms  = require( './lib/evecms.js'    );
 var util    = require( './lib/util.js'      );
+var paths   = require( './lib/paths.js'     );
 
 // --- CONSTANTS --- //
 
-var DIR_ROOT    = __dirname + '/';
-var DIR_COMMON  = DIR_ROOT + 'common/';
-var DIR_SCRIPTS = DIR_ROOT + 'static/script/';
-var DIR_STYLE   = DIR_ROOT + 'static/style/';
-
 var ROUTE_SCRIPTS   = /\/scripts\/(?!common)(.+)/;
 var ROUTE_COMMON    = '/scripts/common';
-var ROUTE_STYLE     = '/style/:module';
+var ROUTE_STYLES    = '/style/:module';
+var ROUTE_IMAGES    = '/img/:image';
 
 // --- FUNCTIONS --- //
 
@@ -55,17 +52,17 @@ app.configure( 'development', function(){
 
     // In dev mode we send all the files concatenated together.
     app.get( ROUTE_SCRIPTS, function( req, res ){
-        _sendJSFiles( DIR_SCRIPTS + req.params[0], res );
+        _sendJSFiles( paths.DIR_SCRIPTS + req.params[0], res );
     });
     app.get( ROUTE_COMMON, function( req, res ){
-        _sendJSFiles( DIR_COMMON, res );
+        _sendJSFiles( paths.DIR_COMMON, res );
     });
-    app.get( ROUTE_STYLE, function( req, res ){
+    app.get( ROUTE_STYLES, function( req, res ){
         if( req.params.group == 'user' ){
             evecms.getInstance().sendUserStyles( res );
         }
         else {
-            util.sendDirectoryContents( DIR_STYLE + req.params.module, /\.css$/, res )
+            util.sendDirectoryContents( paths.DIR_STYLE + req.params.module, /\.css$/, res )
                 .once( 'file', function(){
                     res.writeHead( 200, { 'Content-Type' : 'text/css' } );
                 }).once( 'error', function( err ){
@@ -90,22 +87,26 @@ app.configure( 'production', function(){
     var jsExt = '.min.js.gz';
     var cssExt = '.min.css.gz';
     app.get( ROUTE_SCRIPTS, function( req, res ){
-        res.sendfile( DIR_SCRIPTS + req.params[0] + jsExt );
+        res.sendfile( paths.DIR_SCRIPTS + req.params[0] + jsExt );
     });
     app.get( ROUTE_COMMON, function( req, res ){
-        res.sendfile( DIR_COMMON + 'common' + jsExt );
+        res.sendfile( paths.DIR_COMMON + 'common' + jsExt );
     });
-    app.get( ROUTE_STYLE, function( req, res ){
+    app.get( ROUTE_STYLES, function( req, res ){
         if( req.params.module == 'user' ){
             evecms.getInstance().sendUserStyles( res );
         }
         else {
-            res.sendfile( DIR_STYLE + res.params.module + cssExt );
+            res.sendfile( paths.DIR_STYLE + res.params.module + cssExt );
         }
     });
 });
 
 // --- ROUTING --- //
+
+app.get( ROUTE_IMAGES, function( req, res ){
+    res.sendfile( paths.DIR_IMAGES + req.params.image );
+});
 
 // Everything that isn't JS, CSS, or images gets the index page. Follow up requests through
 // socket.io will handle the specific needs of the page.
