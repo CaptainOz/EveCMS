@@ -1,0 +1,39 @@
+.chevron {
+    height: 0;
+    line-height: 0;
+    border-style: solid;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0.2em;
+}
+
+.chevron.left {
+    /* for left pointers, right border is 0 */
+    border-width: 0.4em 0.4em 0.4em 0;
+    border-color: transparent;
+    border-right-color: #aaa;
+}
+
+.chevron.right,
+.tree > li > .chevron {
+    border-width: 0.4em 0 0.4em 0.4em;
+    border-color: transparent;
+    border-left-color: #aaa;
+    margin-top: 0.25em;
+    margin-left: 0.5em;
+}
+
+.chevron.down.right {
+    border-width: 0.4em 0.4em 0 0.4em;
+    border-color: transparent;
+    border-right-color: #aaa;
+}
+
+.chevron.down,
+.tree > li.open > .chevron {
+    border-width: 0.4em 0.4em 0 0.4em;
+    border-color: transparent;
+    border-top-color: #aaa;
+    margin-top: 0.45em;
+    margin-left: 0.15em;
+}

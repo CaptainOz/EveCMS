@@ -1,0 +1,134 @@
+.killboard > .brief {
+    clear: both;
+    overflow: hidden;
+}
+
+.killboard > .brief > .losers,
+.killboard > .brief > .data > div,
+.killboard > .brief > .winners {
+    border: 1px solid #aaa;
+}
+
+.killboard > .brief > .losers {
+    float: left;
+}
+
+.killboard > .brief .data {
+    margin: 0 150px;
+}
+
+.killboard > .brief > .winners {
+    float: right;
+}
+
+.killboard > .brief > .losers > .user {
+    background-color: rgba( 64, 0, 0, 0.2 );
+    overflow: hidden;
+}
+
+.killboard > .brief .data > div {
+    padding: 0.25em;
+    overflow: hidden;
+    margin-bottom: 0.5em;
+    min-width: 500px;
+}
+
+.killboard > .brief .data p {
+    margin: 0;
+    font-size: 0.8em;
+}
+
+.killboard > .brief .user {
+    padding: 0.5em;
+}
+
+.killboard > .brief .user > .player.icon {
+    width: 128px;
+    height: 128px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+}
+
+.killboard > .brief .user > .icon img {
+    border-radius: 5px;
+}
+
+.killboard > .brief .user > .name {
+    text-align: center;
+    margin: 0.5em;
+}
+
+.killboard > .brief .user > .corporation.icon,
+.killboard > .brief .user > .alliance.icon {
+    float: left;
+}
+
+.killboard > .brief .user > .corporation.icon img,
+.killboard > .brief .user > .alliance.icon img {
+    width: 64px;
+    height: 64px;
+}
+
+.killboard > .brief .data > .ship > .winner,
+.killboard > .brief .data > .ship > .loser {
+    width: 45%;
+}
+
+.killboard > .brief .data .titles {
+    float: left;
+    margin: 0;
+    text-align: center;
+}
+
+.killboard > .brief .data .ship > .loser,
+.killboard > .brief .data .ship > .loser img {
+    float: left;
+    text-align: left;
+}
+
+.killboard > .brief .data .ship > .winner,
+.killboard > .brief .data .ship > .winner img {
+    float: right;
+    text-align: right;
+}
+
+.killboard > .brief .data .ship img {
+    margin: 0.25em;
+}
+
+.killboard > .brief .data .titles {
+}
+
+.killboard > .brief .fittings .viewer {
+    width: 480px;
+    height: 480px;
+    background-color: #444;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    position: relative;
+}
+
+.killboard > .brief .fittings .viewer .ship {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    width: 470px;
+    height: 470px;
+    border-radius: 235px;
+    background-color: #888;
+}
+
+.killboard > .brief .fittings .viewer .high {
+    position: absolute;
+}
+
+.killboard > .brief .fittings .viewer .slot-container {
+    position: relative;
+}
+
+.killboard > .brief .fittings .viewer .slot {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #aaa;
+}

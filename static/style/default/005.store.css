@@ -1,0 +1,88 @@
+.store .categories {
+    border: 3px solid #aaa;
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+    clear: both;
+    float: left;
+    margin: 0.5em;
+    margin-left: -0.5em;
+    width: 25%;
+    background-color: #444;
+}
+
+.store .categories li > .icon {
+    width: 1.5em;
+    height: 1.5em;
+    margin-top: -0.2em;
+}
+
+.store > .items {
+    width: 70%;
+    float: left;
+}
+
+.store > .items .item {
+    clear: both;
+    overflow: hidden;
+    margin: 0.5em 0 0 0;
+}
+
+.store > .items .item + .item::before {
+    display: block;
+    content: "";
+    border-bottom: 3px dashed #aaa;
+    margin: 0.5em 0;
+}
+
+
+.store > .items .controls {
+    clear: both;
+    overflow: hidden;
+    float: left;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.store > .items .controls .quantity {
+    width: 2.8em;
+}
+
+.store > .items .controls .buy {
+}
+
+.store > .items .icon {
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    box-shadow: inset 5px 5px 25px black;
+    background-color: #444;
+    width: 5em;
+    height: 5em;
+    margin: 0 0.5em 0.5em 0;
+    position: relative;
+}
+
+.store > .items .icon > img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -32px 0 0 -32px;
+}
+
+.store > .items .icon > .counter {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 0.75em;
+    background-color: rgba( 136, 136, 136, 0.8 );
+    width: 60%;
+    text-align: right;
+    border-top: 1px solid #aaa;
+    border-left: 1px solid #aaa;
+    border-radius: 3px 0;
+    box-shadow: inset 1px 1px 6px black;
+    padding-right: 0.2em;
+}
+
+.store > .items .description {
+    margin: 0 0.5em 0.5em 0;
+}

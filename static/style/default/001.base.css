@@ -1,0 +1,49 @@
+body {
+    background-color: #080808;
+    background-image: -webkit-linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.02) 25%,
+        rgba(255, 255, 255, 0) 25%,
+        rgba(255, 255, 255, 0) 50%,
+        rgba(255, 255, 255, 0.02) 50%,
+        rgba(255, 255, 255, 0.02) 75%,
+        rgba(255, 255, 255, 0) 75%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    background-size: 10px 10px;
+    font-family: sans-serif;
+    font-size: 14px;
+}
+
+body > div {
+    margin: 0 auto;
+    width: 90%;
+    padding: 0.5em;
+}
+
+input {
+    background-color: #444;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    box-shadow: inset 3px 3px 10px #222;
+    padding: 0.25em;
+    margin-right: 0.25em;
+    height: 1.25em;
+}
+
+input:focus {
+    box-shadow: inset 3px 3px 10px black;
+    outline: none;
+}
+
+input.number {
+    text-align: right;
+}
+
+p {
+    margin: 0;
+}
+
+p + p {
+    margin-top: 0.5em;
+}
