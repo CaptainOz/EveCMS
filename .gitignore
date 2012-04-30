@@ -9,3 +9,8 @@ static/img/Players
 static/img/Icons
 static/img/Corporations
 
+# Also ignore data dumps and other SQL files.
+sql/eveonline-*.sql.gz
+sql/*.mwb.bak
+sql/*.sql
+
