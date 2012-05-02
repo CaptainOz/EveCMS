@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+    <script type="application/javascript">
+        $(function(){
+            // Simple page selector.
+            $('#header ol.menu li').click(function(){
+                var $this = $(this);
+                var page = $this.data( 'page' );
+                $('#body > div')
+                    .hide()
+                    .filter( '.' + page ).show();
+                $('#header .menu .active').removeClass( 'active' );
+                $this.addClass( 'active' );
+            }).first().click();
+            
+            // Tree expand/collapse.
+            $('.tree > li > .chevron').click(function(){
+                $(this).closest('li').toggleClass( 'open' );
+            });
+
+            // Select on focus.
+            $('input:text').focus(function(){
+                this.select();
+            }).mouseup(function(){
+                return false;
+            }).blur(function(){
+                var val = this.value;
+                var kval = (val / 1000) + 'k';
+                if( kval.length < val.length && val.indexOf( 'k' ) == -1 ){
+                    this.value = kval;
+                }
+            });
+        });
+        
+    </script>
+
+    <style>
+
+        /***************/
+        /* BASE STYLES */
+        /***************/
+        body {
+            background-color: #080808;
+            background-image: -webkit-linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.02) 25%,
+                rgba(255, 255, 255, 0) 25%,
+                rgba(255, 255, 255, 0) 50%,
+                rgba(255, 255, 255, 0.02) 50%,
+                rgba(255, 255, 255, 0.02) 75%,
+                rgba(255, 255, 255, 0) 75%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            background-size: 10px 10px;
+            font-family: sans-serif;
+            font-size: 14px;
+        }
+        
+        body > div {
+            margin: 0 auto;
+            width: 90%;
+            padding: 0.5em;
+        }
+
+        input {
+            background-color: #444;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            box-shadow: inset 3px 3px 10px #222;
+            padding: 0.25em;
+            margin-right: 0.25em;
+            height: 1.25em;
+        }
+
+        input:focus {
+            box-shadow: inset 3px 3px 10px black;
+            outline: none;
+        }
+
+        input.number {
+            text-align: right;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        p + p {
+            margin-top: 0.5em;
+        }
+
+        /***********/
+        /* CHEVRON */
+        /***********/
+        .chevron {
+            height: 0;
+            line-height: 0;
+            border-style: solid;
+            cursor: pointer;
+            display: inline-block;
+            margin: 0.2em;
+        }
+
+        .chevron.left {
+            /* for left pointers, right border is 0 */
+            border-width: 0.4em 0.4em 0.4em 0;
+            border-color: transparent;
+            border-right-color: #aaa;
+        }
+
+        .chevron.right,
+        .tree > li > .chevron {
+            border-width: 0.4em 0 0.4em 0.4em;
+            border-color: transparent;
+            border-left-color: #aaa;
+            margin-top: 0.25em;
+            margin-left: 0.5em;
+        }
+        
+        .chevron.down.right {
+            border-width: 0.4em 0.4em 0 0.4em;
+            border-color: transparent;
+            border-right-color: #aaa;
+        }
+
+        .chevron.down,
+        .tree > li.open > .chevron {
+            border-width: 0.4em 0.4em 0 0.4em;
+            border-color: transparent;
+            border-top-color: #aaa;
+            margin-top: 0.45em;
+            margin-left: 0.15em;
+        }
+
+        /********/
+        /* MENU */
+        /********/
+        .menu {
+            list-style: none;
+            padding: 0;
+        }
+
+        .menu > * {
+            position: relative;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 1em;
+            user-select: none;
+            -webkit-user-select: none;
+            user-drag: none;
+            -webkit-user-drag: none;
+            border: 1px solid transparent;
+        }
+
+        .menu > .active {
+            
+        }
+
+        .menu > :hover {
+            color: #ccc;
+            box-shadow:
+                inset 1px 1px #fff,
+                inset -1px -1px #000;
+            border-color: #444;
+        }
+
+        .menu > :hover:active {
+            padding: 6px 4px 4px 6px;
+            box-shadow:
+                inset 1px 1px #000,
+                inset -1px -1px #fff;
+        }
+
+        .menu.horizontal > * {
+            display: inline;
+        }
+        
+        .menu > * > .submenu {
+            position: absolute;
+            display: none;
+            top: 1.375em;
+            width: 10em;
+        }
+
+        .menu > :hover > .submenu {
+            display: block;
+        }
+
+        .submenu > .menu {
+            padding: 0;
+            display: inline-block;
+        }
+
+        .submenu > .menu > * {
+            background: none;
+            margin: 0 0.5em 0 0.25em;
+        }
+
+        /********/
+        /* TREE */
+        /********/
+        .tree {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tree > li {
+            clear: both;
+            overflow: hidden;
+            padding: 0.25em 0;
+            background-color: #444;
+        }
+
+        .tree > li:nth-child(2n) {
+            background-color: #5a5a5a;
+        }
+
+        .tree > li + li {
+            padding-top: 0;
+        }
+
+        .tree > li + li::before {
+            border-bottom: 1px solid #aaa;
+            content: "";
+            width: 100%;
+            float: left;
+            margin-bottom: 0.25em;
+        }
+
+        .tree > li > .subtree {
+            display: none;
+            margin: 0.5em 0 -0.25em 0.5em;
+            border-left: 1px solid #aaa;
+            border-top: 1px solid #aaa;
+            border-top-left-radius: 5px;
+            clear: both;
+            overflow: hidden;
+        }
+
+        .tree > li.open > .subtree {
+            display: block;
+        }
+
+        /**********/
+        /* BUTTON */
+        /**********/
+        .button {
+            border: 1px solid transparent;
+            display: inline-block;
+            border-radius: 1em;
+            padding: 4px 6px;
+            height: 1.25em;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            user-drag: none;
+            -webkit-user-drag: none;
+        }
+
+        .button:hover {
+            border-color: #aaa;
+            background-color: #888;
+        }
+
+        .button:hover:active {
+            padding: 5px 5px 3px 7px;
+            box-shadow:
+                inset 3px 3px 6px #555,
+                inset -2px -2px 3px #666;
+        }
+
+        .button * {
+            user-select: none;
+            -webkit-user-select: none;
+            user-drag: none;
+            -webkit-user-drag: none;
+        }
+
+        .combo-button {
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            display: inline-block;
+            height: 1.5em;
+            clear: both;
+            overflow: hidden;
+        }
+
+        .combo-button > input,
+        .combo-button > .button {
+            height: 100%;
+            border: none;
+            border-radius: 4px;
+            margin: 0;
+            padding: 0;
+            float: left;
+        }
+        
+        .combo-button > input {
+            border-right: 1px solid #aaa;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            padding-right: 0.25em;
+        }
+        
+        .combo-button > .button {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            padding: 1px 4px 1px 4px;
+        }
+
+        .combo-button > .button:hover:active {
+            padding: 2px 3px 0 5px;
+        }
+
+        .combo-button > .button > img {
+            max-height: 1.25em;
+        }
+
+        /********/
+        /* MISC */
+        /********/
+        .clear {
+            clear: both;
+            height: 0;
+        }
+
+        .float-container {
+            overflow: hidden;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .non-hideable {
+            display: block !important;
+        }
+
+        /***********************/
+        /* MAIN SECTION STYLES */
+        /***********************/
+        #header,
+        #body {
+            border: 3px solid #aaa;
+            box-shadow: 8px 8px 16px #000;
+        }
+        
+        #header {
+            color: #ddd;
+            margin-top: 2em;
+            border-radius: 15px 0 0 0;
+            border-bottom: none;
+            background-image: url('./thanatos-crop.png');
+            background-position: 20em;
+            background-repeat: no-repeat;
+            background-color: #0a0b0d;
+            height: 100px;
+        }
+        
+        #body {
+            background-color: #666;
+            margin-bottom: 1em;
+            border-radius: 0 0 15px 0;
+            min-height: 300px;
+        }
+        
+        #footer {
+            color: #555;
+        }
+
+        #header > .menu {
+            margin-top: 2em;
+        }
+
+        #header > .menu > li {
+            margin: 0 0.25em;
+        }
+        
+        #header > h1 {
+            margin-top: 0;
+        }
+
+        #body > .user {
+            margin-bottom: 0.5em;
+        }
+
+        /****************/
+        /* STORE STYLES */
+        /****************/
+        .store .categories {
+            border: 3px solid #aaa;
+            border-left: none;
+            border-radius: 0 5px 5px 0;
+            clear: both;
+            float: left;
+            margin: 0.5em;
+            margin-left: -0.5em;
+            width: 25%;
+            background-color: #444;
+        }
+
+        .store .categories li > .icon {
+            width: 1.5em;
+            height: 1.5em;
+            margin-top: -0.2em;
+        }
+
+        .store > .items {
+            width: 70%;
+            float: left;
+        }
+
+        .store > .items .item {
+            clear: both;
+            overflow: hidden;
+            margin: 0.5em 0 0 0;
+        }
+
+        .store > .items .item + .item::before {
+            display: block;
+            content: "";
+            border-bottom: 3px dashed #aaa;
+            margin: 0.5em 0;
+        }
+
+
+        .store > .items .controls {
+            clear: both;
+            overflow: hidden;
+            float: left;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .store > .items .controls .quantity {
+            width: 2.8em;
+        }
+
+        .store > .items .controls .buy {
+        }
+
+        .store > .items .icon {
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            box-shadow: inset 5px 5px 25px black;
+            background-color: #444;
+            width: 5em;
+            height: 5em;
+            margin: 0 0.5em 0.5em 0;
+            position: relative;
+        }
+
+        .store > .items .icon > img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -32px 0 0 -32px;
+        }
+
+        .store > .items .icon > .counter {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            font-size: 0.75em;
+            background-color: rgba( 136, 136, 136, 0.8 );
+            width: 60%;
+            text-align: right;
+            border-top: 1px solid #aaa;
+            border-left: 1px solid #aaa;
+            border-radius: 3px 0;
+            box-shadow: inset 1px 1px 6px black;
+            padding-right: 0.2em;
+        }
+
+        .store > .items .description {
+            margin: 0 0.5em 0.5em 0;
+        }
+
+        /********************/
+        /* KILLBOARD STYLES */
+        /********************/
+        .killboard > .brief {
+            clear: both;
+            overflow: hidden;
+        }
+
+        .killboard > .brief > .losers,
+        .killboard > .brief > .data > div,
+        .killboard > .brief > .winners {
+            border: 1px solid #aaa;
+        }
+
+        .killboard > .brief > .losers {
+            float: left;
+        }
+
+        .killboard > .brief .data {
+            margin: 0 150px;
+        }
+
+        .killboard > .brief > .winners {
+            float: right;
+        }
+
+        .killboard > .brief > .losers > .user {
+            background-color: rgba( 64, 0, 0, 0.2 );
+            overflow: hidden;
+        }
+
+        .killboard > .brief .data > div {
+            padding: 0.25em;
+            overflow: hidden;
+            margin-bottom: 0.5em;
+            min-width: 500px;
+        }
+
+        .killboard > .brief .data p {
+            margin: 0;
+            font-size: 0.8em;
+        }
+
+        .killboard > .brief .user {
+            padding: 0.5em;
+        }
+
+        .killboard > .brief .user > .player.icon {
+            width: 128px;
+            height: 128px;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+        }
+
+        .killboard > .brief .user > .icon img {
+            border-radius: 5px;
+        }
+
+        .killboard > .brief .user > .name {
+            text-align: center;
+            margin: 0.5em;
+        }
+
+        .killboard > .brief .user > .corporation.icon,
+        .killboard > .brief .user > .alliance.icon {
+            float: left;
+        }
+
+        .killboard > .brief .user > .corporation.icon img,
+        .killboard > .brief .user > .alliance.icon img {
+            width: 64px;
+            height: 64px;
+        }
+
+        .killboard > .brief .data > .ship > .winner,
+        .killboard > .brief .data > .ship > .loser {
+            width: 45%;
+        }
+
+        .killboard > .brief .data .titles {
+            float: left;
+            margin: 0;
+            text-align: center;
+        }
+
+        .killboard > .brief .data .ship > .loser,
+        .killboard > .brief .data .ship > .loser img {
+            float: left;
+            text-align: left;
+        }
+
+        .killboard > .brief .data .ship > .winner,
+        .killboard > .brief .data .ship > .winner img {
+            float: right;
+            text-align: right;
+        }
+
+        .killboard > .brief .data .ship img {
+            margin: 0.25em;
+        }
+
+        .killboard > .brief .data .titles {
+        }
+
+        .killboard > .brief .fittings .viewer {
+            width: 480px;
+            height: 480px;
+            background-color: #444;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .killboard > .brief .fittings .viewer .ship {
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            width: 470px;
+            height: 470px;
+            border-radius: 235px;
+            background-color: #888;
+        }
+
+        .killboard > .brief .fittings .viewer .high {
+            position: absolute;
+        }
+
+        .killboard > .brief .fittings .viewer .slot-container {
+            position: relative;
+        }
+
+        .killboard > .brief .fittings .viewer .slot {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 1px solid #aaa;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1>EveCMS</h1>
+        <ol class="menu horizontal">
+            <li data-page="news" class="active">News</li>
+            <li data-page="store">Store</li>
+            <li data-page="wiki">Wiki</li>
+            <li data-page="killboard">Killboard
+            </li>
+        </ol>
+    </div>
+    <div id="body">
+        <div class="user non-hideable">
+            This is non-hideable text.
+        </div>
+
+        <!-- NEWS -->
+        <div class="news">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum egestas nisl ornare nisi ornare a dapibus neque aliquet. Proin gravida felis ut enim tristique quis pulvinar odio pretium. Fusce laoreet dapibus risus, sed faucibus massa posuere at. Aenean vel magna vitae orci adipiscing pulvinar eget a libero. Mauris condimentum imperdiet posuere. Quisque vel lectus erat, eu tincidunt magna. Nunc magna dui, vehicula eu vestibulum vehicula, vulputate eget nunc. Aliquam erat volutpat. Nunc sollicitudin malesuada mi a porta. Ut dui quam, fermentum et fermentum id, tincidunt eget mauris. Curabitur commodo laoreet elementum. In tempus lectus vitae lacus feugiat et sollicitudin turpis faucibus.</p>
+
+            <p>In et tellus nisi. Cras scelerisque venenatis convallis. Donec lectus ipsum, rhoncus sit amet ullamcorper non, dignissim nec ligula. Donec mollis, quam sed fringilla faucibus, tellus turpis malesuada massa, id porttitor arcu eros congue odio. Integer fermentum laoreet augue, at placerat leo volutpat pretium. Nullam justo turpis, sodales vitae varius porttitor, mollis sed nisi. Morbi sit amet ante eu nisi bibendum ullamcorper ut vel elit. Ut et metus sit amet ipsum pulvinar rhoncus. Nulla sagittis, nisi ac feugiat auctor, lectus nibh pulvinar lectus, eget pretium sem velit laoreet ipsum. Etiam fringilla nisi eget est bibendum ultrices. Maecenas rutrum nulla diam. Sed blandit nibh lobortis nisl sodales blandit. Suspendisse pharetra, ante ac hendrerit tempus, mauris ligula vulputate erat, id accumsan magna tellus quis sem. Vestibulum magna nunc, commodo porttitor iaculis vel, scelerisque ac risus. Phasellus quis elit eget lorem congue luctus tempor sit amet nibh. Pellentesque dictum nulla sit amet ligula sagittis hendrerit scelerisque nibh porta.</p>
+
+            <p>Fusce mollis, dui elementum dignissim dapibus, nunc risus congue elit, et laoreet leo ipsum a justo. Quisque vestibulum felis at enim viverra mollis. Ut et metus a justo egestas ultrices. Mauris congue quam in libero luctus in egestas nulla lacinia. Donec ac nunc purus. Aenean a tortor sem. Ut quis risus non massa lacinia tristique. Nam dignissim sodales leo, tempor vulputate metus sollicitudin at. Curabitur blandit nisi non enim consequat at luctus sem blandit. Proin fringilla placerat ipsum, non dapibus dolor iaculis dignissim. Sed quis mi id lacus venenatis scelerisque. Morbi nulla magna, viverra ut ultricies sed, cursus nec orci. Duis sem lectus, mollis quis cursus nec, viverra vitae tellus. Aliquam erat volutpat.</p>
+
+            <p>Cras interdum interdum lobortis. Proin pulvinar mattis mi, quis porttitor odio congue nec. Nulla facilisi. Ut scelerisque sem sit amet nunc semper tempor. Nulla placerat, augue ac volutpat varius, metus libero mollis nibh, sit amet porta velit sem sed nulla. Nam tellus urna, rhoncus vitae consequat vel, tincidunt eget mi. Praesent diam augue, viverra sed aliquet nec, luctus non arcu.</p>
+
+            <p>In nec sem tellus. Proin eu urna augue. In tortor purus, viverra et pharetra ut, adipiscing in magna. Praesent sem tellus, varius condimentum facilisis et, tincidunt at leo. Nam fermentum dui et sem rhoncus tristique. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras dolor mi, accumsan vel bibendum at, hendrerit eget dui. Integer dui urna, imperdiet ut aliquam sit amet, rhoncus ut justo. Sed libero mauris, dignissim id tempus non, imperdiet eget est. Proin sapien nunc, tincidunt ut pretium a, mollis a sem. Pellentesque sagittis, nunc ac viverra aliquet, turpis urna euismod eros, non dapibus ligula metus vehicula justo. Maecenas fringilla eleifend nibh. Ut pharetra, mi vitae dignissim ullamcorper, erat erat molestie neque, sit amet tempus elit nunc eu mi. Praesent pellentesque, turpis ac luctus ullamcorper, felis ante adipiscing diam, vitae lacinia erat libero sed massa.</p>
+
+            <p>Suspendisse potenti. Maecenas egestas ultrices dictum. Donec eget varius elit. Mauris tempus tempus vehicula. Cras lobortis, nisl quis tincidunt ullamcorper, dolor odio egestas dolor, non vestibulum turpis odio et nibh. Ut sodales ultrices neque in tristique. Etiam felis libero, eleifend nec laoreet quis, mollis vel ipsum.<p>
+
+            <p>Proin mauris augue, ultrices nec cursus nec, ullamcorper in ipsum. Curabitur porttitor dapibus suscipit. Nunc viverra volutpat massa, lacinia rutrum dolor ullamcorper sed. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris iaculis elit ut nunc aliquam convallis. Quisque dolor elit, porttitor sed bibendum ac, scelerisque eget metus. Maecenas ultricies suscipit felis, vitae molestie sem sodales ut. Suspendisse potenti.</p>
+
+            <p>Curabitur viverra purus vel mi vehicula quis consectetur est viverra. Ut facilisis facilisis mollis. Nullam velit odio, scelerisque eget ullamcorper et, posuere nec massa. Nullam id velit at eros ultricies malesuada. Suspendisse in sapien sem, a euismod libero. Morbi tincidunt sollicitudin erat eu tempus. Quisque iaculis fermentum semper. Duis vel tellus ante, id consequat turpis.</p>
+
+            <p>Morbi facilisis nibh ligula. Nam pretium quam sed turpis placerat pretium. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin quis nunc mi. Aliquam erat volutpat. Etiam et ligula tellus, et interdum mi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus tincidunt pellentesque ligula, id tincidunt lectus sagittis quis. Duis quis lectus tellus, sit amet sollicitudin tellus. Nulla congue ullamcorper purus eget tempus. Fusce et venenatis metus. Mauris vitae purus euismod eros consequat commodo.</p>
+
+            <p>Praesent nec quam eget dolor accumsan porta. Praesent molestie urna at leo hendrerit et tincidunt risus auctor. Sed vehicula augue quis quam tempor blandit. Duis suscipit malesuada purus eget blandit. In diam turpis, adipiscing id feugiat ut, sagittis a augue. Fusce sed justo ante. In nisi odio, tincidunt sed interdum at, faucibus quis quam.</p>
+        </div>
+
+        <!-- STORE -->
+        <div class="store">
+            <div class="categories-container">
+                <div class="categories">
+                    <ol class="tree">
+                        <li><div class="chevron"></div>
+                            <img class="icon" src="./Icons/items/1_64_1.png" />
+                            <span class="title">Category 1</span>
+                            <div class="subtree">
+                                <ol class="tree">
+                                    <li><div class="chevron"></div>
+                                        <img class="icon" src="./Icons/items/1_64_5.png" />
+                                        <span class="title">Category 1.1</span>
+                                    </li>
+                                    <li><div class="chevron"></div>
+                                        <img class="icon" src="./Icons/items/1_64_6.png" />
+                                        <span class="title">Category 1.2</span>
+                                    </li>
+                                </ol>
+                            </div>
+                        <li><div class="chevron"></div>
+                            <img class="icon" src="./Icons/items/1_64_2.png" />
+                            <span class="title">Category 2</span>
+                            <div class="subtree">
+                                <ol class="tree">
+                                    <li><div class="chevron"></div>
+                                        <img class="icon" src="./Icons/items/1_64_7.png" />
+                                        <span class="title">Category 2.1</span>
+                                    </li>
+                                    <li><div class="chevron"></div>
+                                        <img class="icon" src="./Icons/items/1_64_8.png" />
+                                        <span class="title">Category 2.2</span>
+                                    </li>
+                                </ol>
+                            </div>
+                        <li><div class="chevron"></div>
+                            <img class="icon" src="./Icons/items/1_64_3.png" />
+                            <span class="title">Category 3</span>
+                            <div class="subtree">
+                                <ol class="tree">
+                                    <li><div class="chevron"></div>
+                                        <img class="icon" src="./Icons/items/1_64_9.png" />
+                                        <span class="title">Category 3.1</span>
+                                        <div class="subtree">
+                                            <ol class="tree">
+                                                <li><div class="chevron"></div>
+                                                    <img class="icon" src="./Icons/items/1_64_13.png" />
+                                                    <span class="title">Category 3.1.1</span>
+                                                </li>
+                                                <li><div class="chevron"></div>
+                                                    <img class="icon" src="./Icons/items/1_64_14.png" />
+                                                    <span class="title">Category 3.1.2</span>
+                                                </li>
+                                            </ol>
+                                        </div>
+                                    </li>
+                                    <li><div class="chevron"></div>
+                                        <img class="icon" src="./Icons/items/1_64_10.png" />
+                                        <span class="title">Category 3.2</span>
+                                        <div class="subtree">
+                                            <ol class="tree">
+                                                <li><div class="chevron"></div>
+                                                    <img class="icon" src="./Icons/items/1_64_15.png" />
+                                                    <span class="title">Category 3.2.1</span>
+                                                </li>
+                                                <li><div class="chevron"></div>
+                                                    <img class="icon" src="./Icons/items/1_64_16.png" />
+                                                    <span class="title">Category 3.2.2</span>
+                                                </li>
+                                            </ol>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                        <li><div class="chevron"></div>
+                            <img class="icon" src="./Icons/items/1_64_4.png" />
+                            <span class="title">Category 4</span>
+                            <div class="subtree">
+                                <ol class="tree">
+                                    <li><div class="chevron"></div>
+                                        <img class="icon" src="./Icons/items/1_64_11.png" />
+                                        <span class="title">Category 4.1</span>
+                                    </li>
+                                    <li><div class="chevron"></div>
+                                        <img class="icon" src="./Icons/items/1_64_12.png" />
+                                        <span class="title">Category 4.2</span>
+                                    </li>
+                                </ol>
+                            </div>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="items">
+                <div class="item">
+                    <div class="controls">
+                        <div class="icon">
+                            <img src="./Types/3175_64.png" />
+                            <span class="counter">3000</span>
+                        </div>
+                        <div class="combo-button">
+                            <input class="quantity number" type="text" value="0" />
+                            <div class="cart button">
+                                <img src="./add-to-cart.png" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="description">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum egestas nisl ornare nisi ornare a dapibus neque aliquet. Proin gravida felis ut enim tristique quis pulvinar odio pretium. Fusce laoreet dapibus risus, sed faucibus massa posuere at. Aenean vel magna vitae orci adipiscing pulvinar eget a libero. Mauris condimentum imperdiet posuere. Quisque vel lectus erat, eu tincidunt magna. Nunc magna dui, vehicula eu vestibulum vehicula, vulputate eget nunc. Aliquam erat volutpat. Nunc sollicitudin malesuada mi a porta. Ut dui quam, fermentum et fermentum id, tincidunt eget mauris. Curabitur commodo laoreet elementum. In tempus lectus vitae lacus feugiat et sollicitudin turpis faucibus.</p>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="controls">
+                        <div class="icon">
+                            <img src="./Types/30759_64.png" />
+                            <span class="counter">12.4k</span>
+                        </div>
+                        <div class="combo-button">
+                            <input class="quantity number" type="text" value="0" />
+                            <div class="cart button">
+                                <img src="./add-to-cart.png" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="description">
+                        <p>In et tellus nisi. Cras scelerisque venenatis convallis. Donec lectus ipsum, rhoncus sit amet ullamcorper non, dignissim nec ligula. Donec mollis, quam sed fringilla faucibus, tellus turpis malesuada massa, id porttitor arcu eros congue odio. Integer fermentum laoreet augue, at placerat leo volutpat pretium. Nullam justo turpis, sodales vitae varius porttitor, mollis sed nisi. Morbi sit amet ante eu nisi bibendum ullamcorper ut vel elit. Ut et metus sit amet ipsum pulvinar rhoncus. Nulla sagittis, nisi ac feugiat auctor, lectus nibh pulvinar lectus, eget pretium sem velit laoreet ipsum. Etiam fringilla nisi eget est bibendum ultrices. Maecenas rutrum nulla diam. Sed blandit nibh lobortis nisl sodales blandit. Suspendisse pharetra, ante ac hendrerit tempus, mauris ligula vulputate erat, id accumsan magna tellus quis sem. Vestibulum magna nunc, commodo porttitor iaculis vel, scelerisque ac risus. Phasellus quis elit eget lorem congue luctus tempor sit amet nibh. Pellentesque dictum nulla sit amet ligula sagittis hendrerit scelerisque nibh porta.</p>
+                        <p>Fusce mollis, dui elementum dignissim dapibus, nunc risus congue elit, et laoreet leo ipsum a justo. Quisque vestibulum felis at enim viverra mollis. Ut et metus a justo egestas ultrices. Mauris congue quam in libero luctus in egestas nulla lacinia. Donec ac nunc purus. Aenean a tortor sem. Ut quis risus non massa lacinia tristique. Nam dignissim sodales leo, tempor vulputate metus sollicitudin at. Curabitur blandit nisi non enim consequat at luctus sem blandit. Proin fringilla placerat ipsum, non dapibus dolor iaculis dignissim. Sed quis mi id lacus venenatis scelerisque. Morbi nulla magna, viverra ut ultricies sed, cursus nec orci. Duis sem lectus, mollis quis cursus nec, viverra vitae tellus. Aliquam erat volutpat.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <!-- WIKI -->
+        <div class="wiki">
+            Wiki example.
+        </div>
+
+        <!-- KILLBOARD -->
+        <div class="killboard">
+            <div class="brief">
+                <div class="losers">
+                    <div class="user">
+                        <div class="player icon">
+                            <img src="./Players/loser.jpg" />
+                        </div>
+                        <div class="name">Arnold Rimmer</div>
+                        <div class="corporation icon">
+                            <img src="./Corporations/loser.png" />
+                        </div>
+                        <div class="alliance icon">
+                            <img src="./alliance.png" />
+                        </div>
+                    </div>
+                </div>
+                <div class="winners">
+                    <div class="user">
+                        <div class="player icon">
+                            <img src="./Players/winner.jpg" />
+                        </div>
+                        <div class="name">Ace Rimmer</div>
+                        <div class="corporation icon">
+                            <img src="./Corporations/winner.png" />
+                        </div>
+                        <div class="alliance icon">
+                            <img src="./alliance.png" />
+                        </div>
+                    </div>
+                </div>
+                <div class="data">
+                    <div class="ship">
+                        <div class="loser">
+                            <img src="./Types/597_64.png" />
+                            <p>Bantam</p>
+                            <p>Received: 13,519,397</p>
+                            <p>Destroyed: 12.5 mil ISK</p>
+                        </div>
+                        <div class="titles">
+                            <p>Ship</p>
+                            <p>Damage</p>
+                            <p>Value</p>
+                        </div>
+                        <div class="winner">
+                            <img src="./Types/657_64.png" />
+                            <p>Rokh</p>
+                            <p>Dealt: 13,519,397</p>
+                            <p>Dropped: 4.2 mil ISK</p>
+                        </div>
+                    </div>
+                    <div class="fittings">
+                        <div class="viewer">
+                            <div class="ship"></div>
+                            <div class="high">
+                                <div class="slot-container">
+                                    <div class="slot"></div>
+                                    <div class="slot"></div>
+                                    <div class="slot"></div>
+                                    <div class="slot"></div>
+                                    <div class="slot"></div>
+                                    <div class="slot"></div>
+                                    <div class="slot"></div>
+                                    <div class="slot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="details">
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        This is footer text.
+    </div>
+</body>
+</html>
+

@@ -2,20 +2,17 @@
 // --- IMPORTS --- //
 
 var express = require( 'express'            );
-var expose  = require( 'express-expose'     );
 var app     = express.createServer();
-var io      = require( 'socket.io'          ).listen( app );
 var evecms  = require( './lib/evecms.js'    );
 var util    = require( './lib/util.js'      );
+var paths   = require( './lib/paths.js'     );
 
 // --- CONSTANTS --- //
 
-var DIR_ROOT    = __dirname + '/';
-var DIR_COMMON  = DIR_ROOT + 'common/';
-var DIR_SCRIPTS = DIR_ROOT + 'static/script/';
-
 var ROUTE_SCRIPTS   = /\/scripts\/(?!common)(.+)/;
 var ROUTE_COMMON    = '/scripts/common';
+var ROUTE_STYLES    = '/style/:module';
+var ROUTE_IMAGES    = /\/img\/(.+)/;
 
 // --- FUNCTIONS --- //
 
@@ -41,7 +38,7 @@ function _sendJSFiles( dirPath, out ){
 
 app.configure(function(){
     app.use( express.bodyParser() );
-    app.use( express['static']( __dirname + '/static' ) );
+//    app.use( express['static']( __dirname + '/static' ) );
 });
 
 // --- DEV CONFIGURATION --- //
@@ -55,10 +52,28 @@ app.configure( 'development', function(){
 
     // In dev mode we send all the files concatenated together.
     app.get( ROUTE_SCRIPTS, function( req, res ){
-        _sendJSFiles( DIR_SCRIPTS + req.params[0], res );
+        console.log( "Retrieving scripts " + req.params[0] );
+        _sendJSFiles( paths.DIR_SCRIPTS + req.params[0], res );
     });
     app.get( ROUTE_COMMON, function( req, res ){
-        _sendJSFiles( DIR_COMMON, res );
+        console.log( "Retrieving common scripts" );
+        _sendJSFiles( paths.DIR_COMMON, res );
+    });
+    app.get( ROUTE_STYLES, function( req, res ){
+        console.log( "Retrieving css " + req.params.module );
+        if( req.params.module == 'user' ){
+            evecms.getInstance().sendUserStyles( res );
+        }
+        else {
+            util.sendDirectoryContents( paths.DIR_STYLE + req.params.module, /\.css$/, res )
+                .once( 'file', function(){
+                    res.writeHead( 200, { 'Content-Type' : 'text/css' } );
+                }).once( 'error', function( err ){
+                    console.log( err );
+                    res.writeHead( 404 );
+                    res.end();
+                });
+        }
     });
 });
 
@@ -73,27 +88,35 @@ app.configure( 'production', function(){
 
     // In production we send the minified, zipped version of the modules.
     var jsExt = '.min.js.gz';
+    var cssExt = '.min.css.gz';
     app.get( ROUTE_SCRIPTS, function( req, res ){
-        res.sendfile( DIR_SCRIPTS + req.params.module + jsExt );
+        res.sendfile( paths.DIR_SCRIPTS + req.params[0] + jsExt );
     });
     app.get( ROUTE_COMMON, function( req, res ){
-        res.sendfile( DIR_COMMON + 'common' + jsExt );
+        res.sendfile( paths.DIR_COMMON + 'common' + jsExt );
+    });
+    app.get( ROUTE_STYLES, function( req, res ){
+        if( req.params.module == 'user' ){
+            evecms.getInstance().sendUserStyles( res );
+        }
+        else {
+            res.sendfile( paths.DIR_STYLE + res.params.module + cssExt );
+        }
     });
 });
 
 // --- ROUTING --- //
 
-app.get( '/', function( req, res ){
-    res.sendfile( __dirname + '/static/index.html' );
+app.get( ROUTE_IMAGES, function( req, res ){
+    console.log( "Retrieving image: " + req.params[0] );
+    res.sendfile( paths.DIR_IMAGES + req.params[0] );
 });
 
-// --- SOCKET.IO --- //
-
-io.sockets.on( 'connection', function( socket ){
-    socket.emit();
-    socket.on( 'response', function( data ){
-        console.log( data );
-    });
+// Everything that isn't JS, CSS, or images gets the index page. Follow up requests through
+// socket.io will handle the specific needs of the page.
+app.get( /^\/(?!img|scripts|style|favicon)/, function( req, res ){
+    console.log( "Retrieving index: " + req.path );
+    res.sendfile( __dirname + '/static/index.html' );
 });
 
 // --- EVECMS --- //

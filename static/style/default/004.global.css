@@ -1,0 +1,44 @@
+#header,
+#body {
+    border: 3px solid #aaa;
+    box-shadow: 8px 8px 16px #000;
+}
+
+#header {
+    color: #ddd;
+    margin-top: 2em;
+    border-radius: 15px 0 0 0;
+    border-bottom: none;
+    background-image: url('/img/thanatos-crop.png');
+    background-position: 20em;
+    background-repeat: no-repeat;
+    background-color: #0a0b0d;
+    height: 100px;
+}
+
+#body {
+    background-color: #666;
+    margin-bottom: 1em;
+    border-radius: 0 0 15px 0;
+    min-height: 300px;
+}
+
+#footer {
+    color: #555;
+}
+
+#header > .menu {
+    margin-top: 2em;
+}
+
+#header > .menu > li {
+    margin: 0 0.25em;
+}
+
+#header > h1 {
+    margin-top: 0;
+}
+
+#body > .user {
+    margin-bottom: 0.5em;
+}

@@ -2,11 +2,33 @@
 <html>
 <head>
     <title>Eve CMS</title>
+
     <script type="application/javascript" src="/scripts/jquery"></script>
+    <script type="application/javascript" src="/socket.io/socket.io.js"></script>
     <script type="application/javascript" src="/scripts/common"></script>
     <script type="application/javascript" src="/scripts/main"></script>
+
+    <link rel="stylesheet" type="text/css" href="/style/default" />
 </head>
 <body>
-
+    <div id="header">
+        <h1>EveCMS</h1>
+        <ol class="menu horizontal">
+            <li data-page="news" class="active">News</li>
+            <li data-page="store">Store</li>
+            <li data-page="wiki">Wiki</li>
+            <li data-page="killboard">Killboard
+            </li>
+        </ol>
+    </div>
+    <div id="body">
+        <div class="user non-hideable">
+            This is non-hideable text.
+        </div>
+    </div>
+    <div id="footer">
+        This is footer text.
+    </div>
 </body>
 </html>
+
