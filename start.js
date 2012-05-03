@@ -2,10 +2,10 @@
 // --- IMPORTS --- //
 
 var express = require( 'express'            );
-var app     = express.createServer();
 var evecms  = require( './lib/evecms.js'    );
 var util    = require( './lib/util.js'      );
 var paths   = require( './lib/paths.js'     );
+var stylus  = require( 'stylus'             );
 
 // --- CONSTANTS --- //
 
@@ -36,9 +36,10 @@ function _sendJSFiles( dirPath, out ){
 
 // --- UNIVERSAL CONFIGURATION --- //
 
+var app = express.createServer();
+
 app.configure(function(){
     app.use( express.bodyParser() );
-//    app.use( express['static']( __dirname + '/static' ) );
 });
 
 // --- DEV CONFIGURATION --- //
@@ -49,6 +50,12 @@ app.configure( 'development', function(){
             'showStack'         : true
         })
     );
+    app.use( stylus.middleware({
+            'src'       : paths.DIR_STYLUS,
+            'dest'      : paths.DIR_STYLE
+        })
+    );
+    app.use( express['static']( paths.DIR_STYLE ) );
 
     // In dev mode we send all the files concatenated together.
     app.get( ROUTE_SCRIPTS, function( req, res ){
@@ -58,22 +65,6 @@ app.configure( 'development', function(){
     app.get( ROUTE_COMMON, function( req, res ){
         console.log( "Retrieving common scripts" );
         _sendJSFiles( paths.DIR_COMMON, res );
-    });
-    app.get( ROUTE_STYLES, function( req, res ){
-        console.log( "Retrieving css " + req.params.module );
-        if( req.params.module == 'user' ){
-            evecms.getInstance().sendUserStyles( res );
-        }
-        else {
-            util.sendDirectoryContents( paths.DIR_STYLE + req.params.module, /\.css$/, res )
-                .once( 'file', function(){
-                    res.writeHead( 200, { 'Content-Type' : 'text/css' } );
-                }).once( 'error', function( err ){
-                    console.log( err );
-                    res.writeHead( 404 );
-                    res.end();
-                });
-        }
     });
 });
 
@@ -85,6 +76,14 @@ app.configure( 'production', function(){
             'showStack'         : false
         })
     );
+    app.use( stylus.middleware({
+            'src'       : paths.DIR_STYLUS,
+            'dest'      : paths.DIR_STYLE,
+            'compress'  : true
+        })
+    );
+    app.use( express['static']( paths.DIR_STYLE ) );
+
 
     // In production we send the minified, zipped version of the modules.
     var jsExt = '.min.js.gz';

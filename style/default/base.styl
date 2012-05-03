@@ -1,0 +1,45 @@
+
+@import gradients
+@import borders
+@import shadows
+
+body {
+    background-color: #080808;
+    gradient-stripes: 10px 0.1;
+    font-family: sans-serif;
+    font-size: 14px;
+}
+
+body > div {
+    margin: 0 auto;
+    width: 90%;
+    padding: 0.5em;
+}
+
+input {
+    background-color: #444;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    shadow-inner-drop: #222;
+    padding: 0.25em;
+    margin-right: 0.25em;
+    height: 1.25em;
+}
+
+input:focus {
+    shadow-inner-drop: black;
+    outline: none;
+}
+
+input.number {
+    text-align: right;
+}
+
+p {
+    margin: 0;
+}
+
+p + p {
+    margin-top: 0.5em;
+}
+

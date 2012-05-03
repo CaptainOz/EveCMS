@@ -1,0 +1,59 @@
+
+@import borders
+@import selection
+@import shadows
+
+menu-shadow( topColor, bottomColor ){
+    box-shadow: inset 1px 1px topColor, inset -1px -1px bottomColor;
+}
+
+.menu {
+    list-style: none;
+    padding: 0;
+}
+
+.menu > * {
+    position: relative;
+    clickable: 5px;
+    border-radius: 1em;
+    user-select: none;
+    user-drag: none;
+    border: 1px solid transparent;
+}
+
+.menu > :hover {
+    color: #ccc;
+    menu-shadow: #fff #000;
+    border-color: #444;
+}
+
+.menu > :hover:active {
+    padding: 6px 4px 4px 6px;
+    menu-shadow: #000 #fff;
+}
+
+.menu.horizontal > * {
+    display: inline;
+}
+
+.menu > * > .submenu {
+    position: absolute;
+    display: none;
+    top: 1.375em;
+    width: 10em;
+}
+
+.menu > :hover > .submenu {
+    display: block;
+}
+
+.submenu > .menu {
+    padding: 0;
+    display: inline-block;
+}
+
+.submenu > .menu > * {
+    background: none;
+    margin: 0 0.5em 0 0.25em;
+}
+

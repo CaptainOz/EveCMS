@@ -1,0 +1,17 @@
+
+@import vendorstyles
+
+border-radius(){
+    vendor-prop( border-radius, arguments );
+}
+
+border-top-left-radius(){
+    vendor-prop( border-top-left-radius, arguments );
+}
+
+border-sides( sides, val ){
+    for side in sides {
+        border-{side}: val;
+    }
+}
+

@@ -1,0 +1,47 @@
+
+chevron( size ){
+    height: 0;
+    line-height: 0;
+    border-style: solid;
+    display: inline-block;
+    margin: (size / 2);
+    border-width: size;
+    border-color: transparent;
+}
+
+chevron-up( size, color ){
+    chevron( size );
+    border-top-width: 0;
+    border-bottom-color: color;
+    margin-top: size;
+    margin-left: (size / 2);
+}
+
+chevron-left( size, color ){
+    chevron( size );
+    border-left-width: 0;
+    border-right-color: color;
+}
+
+chevron-right( size, color ){
+    chevron( size );
+    border-right-width: 0;
+    border-left-color: color;
+    margin-top: (size / 2);
+    margin-left: size;
+}
+
+chevron-down-right( size, color ){
+    chevron( size );
+    border-bottom-width: 0;
+    border-right-color: color;
+}
+
+chevron-down( size, color ){
+    chevron( size );
+    border-bottom-width: 0;
+    border-top-color: color;
+    margin-top: size;
+    margin-left: (size / 2);
+}
+
