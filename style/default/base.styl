@@ -1,13 +1,15 @@
 
-@import gradients
 @import borders
+@import colors
+@import gradients
 @import shadows
 
 body {
-    background-color: #080808;
+    background-color: color-background;
     gradient-stripes: 10px 0.05;
     font-family: sans-serif;
     font-size: 14px;
+    color: color-font;
 }
 
 body > div {
@@ -17,17 +19,17 @@ body > div {
 }
 
 input {
-    background-color: #444;
-    border: 1px solid #aaa;
+    background-color: color-secondary;
+    border: 1px solid color-border;
     border-radius: 5px;
-    shadow-inner-drop: #222;
+    shadow-inner-drop: color-shadow;
     padding: 0.25em;
     padding-left: @padding * 2;
     margin-right: 0.25em;
     height: 1.25em;
 
     &:focus {
-        shadow-inner-drop: black;
+        shadow-inner-drop: color-shadow-dark;
         outline: none;
     }
 
@@ -36,14 +38,18 @@ input {
         padding-left: @padding;
         padding-right: @padding * 2;
     }
+
+    &.default {
+        color: @background-color * 2;
+    }
 }
 
 p {
     margin: 0;
-}
 
-p + p {
-    margin-top: 0.5em;
+    & + p {
+        margin-top: 0.5em;
+    }
 }
 
 ol, li {

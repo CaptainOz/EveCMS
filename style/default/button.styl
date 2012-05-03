@@ -12,16 +12,16 @@
     cursor: pointer;
     user-select: none;
     user-drag: none;
-}
 
-.button:hover {
-    border-color: #aaa;
-    background-color: #888;
-}
+    &:hover {
+        border-color: color-border;
+        background-color: color-primary-lighter;
+    }
 
-.button:hover:active {
-    padding: 5px 5px 3px 7px;
-    box-shadow: inset 3px 3px 6px #555, inset -2px -2px 3px #666;
+    &:hover:active {
+        padding: 5px 5px 3px 7px;
+        box-shadow: inset 3px 3px 6px color-shadow-light, inset -2px -2px 3px color-shadow-lightest;
+    }
 }
 
 .button * {

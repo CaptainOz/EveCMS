@@ -1,35 +1,36 @@
 
 @import borders
 @import clickables
+@import colors
 @import shadows
 
 #header,
 #body {
-    border: 3px solid #aaa;
-    box-shadow: 8px 8px 16px #000;
+    border: 3px solid color-border;
+    box-shadow: 8px 8px 16px color-shadow-darkest;
 }
 
 #header {
-    color: #ddd;
+    color: color-font-light;
     margin-top: 2em;
     border-radius: 15px 0 0 0;
     border-bottom: none;
     background-image: url('/img/thanatos-crop.png');
     background-position: 20em;
     background-repeat: no-repeat;
-    background-color: #0a0b0d;
+    background-color: #0a0b0d;      /* Same as background color of image. */
     height: 100px;
 }
 
 #body {
-    background-color: #666;
+    background-color: color-primary;
     margin-bottom: 1em;
     border-radius: 0 0 15px 0;
     min-height: 300px;
 }
 
 #footer {
-    color: #555;
+    color: color-font-dark;
 }
 
 #header > .menu {
@@ -47,7 +48,7 @@
 #header > .user > .login {
     & > input {
         margin: 0;
-        width: 8em;
+        width: 6em;
 
         &:nth-child(1) {
             border-right-radius: 0;
@@ -59,7 +60,7 @@
 
     & > .button {
         padding: 5px;
-        clear-button: #444;
+        clear-button: color-secondary;
     }
 }
 
