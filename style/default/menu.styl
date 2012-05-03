@@ -4,10 +4,6 @@
 @import selection
 @import shadows
 
-menu-shadow( topColor, bottomColor ){
-    box-shadow: inset 1px 1px topColor, inset -1px -1px bottomColor;
-}
-
 .menu {
     list-style: none;
     padding: 0;
@@ -15,22 +11,12 @@ menu-shadow( topColor, bottomColor ){
 
 .menu > * {
     position: relative;
-    clickable: 5px;
     border-radius: 1em;
     user-select: none;
     user-drag: none;
-    border: 1px solid transparent;
-}
-
-.menu > :hover {
-    color: #ccc;
-    menu-shadow: #fff #000;
-    border-color: #444;
-}
-
-.menu > :hover:active {
-    padding: 6px 4px 4px 6px;
-    menu-shadow: #000 #fff;
+    border: 1px solid #444;
+    padding: 5px;
+    clear-button( #444 );
 }
 
 .menu.horizontal > * {

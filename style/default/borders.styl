@@ -9,6 +9,16 @@ border-top-left-radius(){
     vendor-prop( border-top-left-radius, arguments );
 }
 
+border-left-radius(){
+    vendor-prop( border-top-left-radius, arguments );
+    vendor-prop( border-bottom-left-radius, arguments );
+}
+
+border-right-radius(){
+    vendor-prop( border-top-right-radius, arguments );
+    vendor-prop( border-bottom-right-radius, arguments );
+}
+
 border-sides( sides, val ){
     for side in sides {
         border-{side}: val;

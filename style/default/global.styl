@@ -1,5 +1,6 @@
 
 @import borders
+@import clickables
 @import shadows
 
 #header,
@@ -32,7 +33,7 @@
 }
 
 #header > .menu {
-    margin-top: 2em;
+    margin: 0.75em 0;
 }
 
 #header > .menu > li {
@@ -40,7 +41,26 @@
 }
 
 #header > h1 {
-    margin-top: 0;
+    margin: 0;
+}
+
+#header > .user > .login {
+    & > input {
+        margin: 0;
+        width: 8em;
+
+        &:nth-child(1) {
+            border-right-radius: 0;
+        }
+        &:nth-child(2) {
+            border-left-radius: 0;
+        }
+    }
+
+    & > .button {
+        padding: 5px;
+        clear-button: #444;
+    }
 }
 
 #body > .user {

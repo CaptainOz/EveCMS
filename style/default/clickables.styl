@@ -1,10 +1,27 @@
 
-clickable( pad ){
+clickable(){
     cursor: pointer;
-    padding: pad;
+    pad = @padding ? @padding : 0px;
 
     &:hover:active {
         padding: (pad + 1) (pad - 1) (pad - 1) (pad + 1);
+    }
+}
+
+clear-button( color ){
+    clickable();
+    background-color: transparent;
+    border-color: transparent;
+    margin-top: 1px;
+    
+    &:hover {
+        box-shadow: inset 1px 1px (color * 2), inset -1px -1px (color / 2);
+        border-color: color;
+    
+        &:active {
+            box-shadow: inset 1px 1px (color / 2), inset -1px -1px (color * 2);
+            margin-top: 0;
+        }
     }
 }
 
