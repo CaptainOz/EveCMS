@@ -22,17 +22,20 @@ input {
     border-radius: 5px;
     shadow-inner-drop: #222;
     padding: 0.25em;
+    padding-left: @padding * 2;
     margin-right: 0.25em;
     height: 1.25em;
-}
 
-input:focus {
-    shadow-inner-drop: black;
-    outline: none;
-}
+    &:focus {
+        shadow-inner-drop: black;
+        outline: none;
+    }
 
-input.number {
-    text-align: right;
+    &.number {
+        text-align: right;
+        padding-left: @padding;
+        padding-right: @padding * 2;
+    }
 }
 
 p {
