@@ -7,40 +7,40 @@
 .menu {
     list-style: none;
     padding: 0;
-}
 
-.menu > * {
-    position: relative;
-    border-radius: 1em;
-    user-select: none;
-    user-drag: none;
-    border: 1px solid #444;
-    padding: 5px;
-    clear-button( #444 );
-}
+    & > * {
+        position: relative;
+        border-radius: 1em;
+        user-select: none;
+        user-drag: none;
+        border: 1px solid #444;
+        padding: 5px;
+        clear-button( #444 );
 
-.menu.horizontal > * {
-    display: inline;
-}
+        & > .submenu {
+            position: absolute;
+            display: none;
+            top: 1.375em;
+            width: 10em;
+        }
 
-.menu > * > .submenu {
-    position: absolute;
-    display: none;
-    top: 1.375em;
-    width: 10em;
-}
+        &:hover > .submenu {
+            display: block;
+        }
+    }
 
-.menu > :hover > .submenu {
-    display: block;
-}
+    &.horizontal > * {
+        display: inline-block;
+    }
 
-.submenu > .menu {
-    padding: 0;
-    display: inline-block;
-}
+    & .submenu > .menu {
+        padding: 0;
+        display: inline-block;
 
-.submenu > .menu > * {
-    background: none;
-    margin: 0 0.5em 0 0.25em;
+        & > * {
+            background: none;
+            margin: 0 0.5em 0 0.25em;
+        }
+    }
 }
 
