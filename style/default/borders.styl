@@ -1,4 +1,5 @@
 
+@import colors
 @import vendorstyles
 
 border-radius(){
@@ -9,19 +10,39 @@ border-top-left-radius(){
     vendor-prop( border-top-left-radius, arguments );
 }
 
-border-left-radius(){
-    vendor-prop( border-top-left-radius, arguments );
+border-top-right-radius(){
+    vendor-prop( border-top-right-radius, arguments );
+}
+
+border-bottom-right-radius(){
+    vendor-prop( border-bottom-right-radius, arguments );
+}
+
+border-bottom-left-radius(){
     vendor-prop( border-bottom-left-radius, arguments );
 }
 
+border-left-radius(){
+    border-top-left-radius: arguments;
+    border-bottom-left-radius: arguments;
+}
+
 border-right-radius(){
-    vendor-prop( border-top-right-radius, arguments );
-    vendor-prop( border-bottom-right-radius, arguments );
+    border-top-right-radius: arguments;
+    border-bottom-right-radius: arguments;
 }
 
 border-sides( sides, val ){
     for side in sides {
         border-{side}: val;
     }
+}
+
+border-style( colr = color-border, style = solid ){
+    (1px style colr);
+}
+
+border-style-thicker( colr = color-border, style = solid ){
+    (3px style colr);
 }
 

@@ -2,55 +2,58 @@
 @import borders
 @import chevrons
 @import clickables
+@import colors
 
 .tree {
     list-style: none;
     margin: 0;
     padding: 0;
-}
 
-.tree > li {
-    clear: both;
-    overflow: hidden;
-    padding: 0.25em 0;
-    background-color: #444;
-}
+    & > li {
+        clear: both;
+        overflow: hidden;
+        padding: 0.25em 0;
+        background-color: color-secondary;
 
-.tree > li:nth-child(2n) {
-    background-color: #5a5a5a;
-}
+        &:nth-child(2n) {
+            background-color: color-secondary-lighter;
+        }
 
-.tree > li + li {
-    padding-top: 0;
-}
+        & + li {
+            padding-top: 0;
 
-.tree > li + li::before {
-    border-bottom: 1px solid #aaa;
-    content: "";
-    width: 100%;
-    float: left;
-    margin-bottom: 0.25em;
-}
+            &::before {
+                border-bottom: border-style();
+                content: "";
+                width: 100%;
+                float: left;
+                margin-bottom: 0.25em;
+            }
+        }
 
-.tree > li > .subtree {
-    display: none;
-    margin: 0.5em 0 -0.25em 0.5em;
-    border-sides: ( top left ) ( 1px solid #aaa );
-    border-top-left-radius: 5px;
-    clear: both;
-    overflow: hidden;
-}
+        & > .subtree {
+            display: none;
+            margin: 0.5em 0 -0.25em 0.5em;
+            border-sides: ( top left ) ( border-style() );
+            border-top-left-radius: 5px;
+            clear: both;
+            overflow: hidden;
+        }
 
-.tree > li.open > .subtree {
-    display: block;
-}
+        & > .chevron {
+            chevron-right: 0.45em color-primary;
+            cursor: pointer;
+        }
 
-.tree > li > .chevron {
-    chevron-right: 0.45em #aaa;
-    cursor: pointer;
-}
+        &.open {
+            & > .subtree {
+                display: block;
+            }
 
-.tree > li.open > .chevron {
-    chevron-down: 0.45em #aaa;
+            & > .chevron {
+                chevron-down: 0.45em color-primary;
+            }
+        }
+    }
 }
 

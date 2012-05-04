@@ -1,20 +1,33 @@
 
 @import borders
 @import colors
+@import positioning
 @import selection
 @import shadows
 
 .store {
     & .categories {
-        border: 3px solid color-border;
+        border: border-style-thicker();
         border-left: none;
-        border-radius: 0 5px 5px 0;
+        border-right-radius: 5px;
         clear: both;
         float: left;
         margin: 0.5em;
         margin-left: -0.5em;
         width: 25%;
         background-color: color-secondary;
+
+        & > .tree {
+            border-right-radius: 5px;
+
+            & > :first-child {
+                border-top-right-radius: 5px;
+            }
+
+            & > :last-child {
+                border-bottom-right-radius: 5px;
+            }
+        }
 
         & li > .icon {
             width: 1.5em;
@@ -36,10 +49,9 @@
         & .item + .item::before {
             display: block;
             content: "";
-            border-bottom: 3px dashed color-border;
+            border-bottom: border-style-thicker( style: dashed );
             margin: 0.5em 0;
         }
-
 
         & .controls {
             clear: both;
@@ -53,9 +65,9 @@
         }
 
         & .icon {
-            border: 1px solid color-border;
+            border: border-style();
             border-radius: 5px;
-            box-shadow: inset 5px 5px 25px color-shadow;
+            shadow-inner-drop-larger: color-shadow;
             background-color: color-secondary;
             width: 5em;
             height: 5em;
@@ -63,24 +75,21 @@
             position: relative;
 
             & > img {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                margin: -32px 0 0 -32px;
+                width: 64px;
+                height: 64px;
+                position-center();
             }
 
             & > .counter {
-                position: absolute;
-                bottom: 0;
-                right: 0;
+                position-bottom-right();
                 font-size: 0.75em;
-                background-color: color-primary - rgba( 0, 0, 0, 0.2 );
+                background-color: color-primary-lighter - rgba( 0, 0, 0, 0.4 );
                 width: 60%;
                 text-align: right;
-                border-sides: (top left) (1px solid color-border);
+                border-sides: (top left) (border-style());
                 border-radius: 3px 0;
-                box-shadow: inset 1px 1px 6px color-shadow;
-                padding-right: 0.2em;
+                shadow-inner-drop-smaller: color-shadow;
+                padding-right: 0.25em;
             }
         }
 
