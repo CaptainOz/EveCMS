@@ -1,15 +1,15 @@
 
-clickable(){
+clickable( top, right = top, bottom = top, left = right ){
     cursor: pointer;
-    pad = @padding ? @padding : 1px;
+    padding: top right bottom left;
 
     &:hover:active {
-        padding: (pad + 1) (pad - 1) (pad - 1) (pad + 1);
+        padding: (top + 1) (right - 1) (bottom - 1) (left + 1);
     }
 }
 
-clear-button( color ){
-    clickable();
+clear-button( color, top, right = top, bottom = top, left = right ){
+    clickable: top right bottom left;
     background-color: transparent;
     border-color: transparent;
     margin-top: 1px;

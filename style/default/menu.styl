@@ -15,8 +15,8 @@
         user-select: none;
         user-drag: none;
         border: border-default( color-secondary );
-        padding: 5px;
-        clear-button( color-secondary );
+        padding: 0.25em 0.5em;
+        clear-button: color-secondary 0.25em 0.5em;
 
         & > .submenu {
             position: absolute;
@@ -30,8 +30,13 @@
         }
     }
 
-    &.horizontal > * {
-        display: inline-block;
+    &.horizontal {
+        overflow: hidden;
+        display: block;
+
+        & > * {
+            float: left;
+        }
     }
 
     & .submenu > .menu {
