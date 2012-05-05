@@ -4,7 +4,7 @@
 @import shadows
 
 .button {
-    border: 1px solid transparent;
+    border: border-default( transparent );
     display: inline-block;
     border-radius: 1em;
     padding: 4px 6px;
@@ -20,52 +20,50 @@
 
     &:hover:active {
         padding: 5px 5px 3px 7px;
-        box-shadow: inset 3px 3px 6px color-shadow-light, inset -2px -2px 3px color-shadow-lightest;
+        shadow-sunk( color-shadow-light );
+    }
+
+    & * {
+        user-select: none;
+        user-drag: none;
     }
 }
 
-.button * {
-    user-select: none;
-    user-drag: none;
-}
-
 .combo-button {
-    border: 1px solid #aaa;
+    border: border-default();
     border-radius: 5px;
     display: inline-block;
     height: 1.5em;
     clear: both;
     overflow: hidden;
-}
 
-.combo-button > input,
-.combo-button > .button {
-    height: 100%;
-    border: none;
-    border-radius: 4px;
-    margin: 0;
-    padding: 0;
-    float: left;
-}
+    & > input,
+    & > .button {
+        height: 100%;
+        border: none;
+        border-radius: 4px;
+        margin: 0;
+        padding: 0;
+        float: left;
+    }
 
-.combo-button > input {
-    border-right: 1px solid #aaa;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    padding-right: 0.25em;
-}
+    & > input {
+        border-right: border-default();
+        border-right-radius: 0;
+        padding-right: 0.25em;
+    }
 
-.combo-button > .button {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    padding: 1px 4px 1px 4px;
-}
+    & > .button {
+        border-left-radius: 0;
+        padding: 1px 4px 1px 4px;
 
-.combo-button > .button:hover:active {
-    padding: 2px 3px 0 5px;
-}
+        &:hover:active {
+            padding: 2px 3px 0 5px;
+        }
 
-.combo-button > .button > img {
-    max-height: 1.25em;
+        & > img {
+            max-height: 1.25em;
+        }
+    }
 }
 

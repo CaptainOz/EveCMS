@@ -7,7 +7,7 @@
 
 .store {
     & .categories {
-        border: border-style-thicker();
+        border: border-thicker();
         border-left: none;
         border-right-radius: 5px;
         clear: both;
@@ -18,14 +18,14 @@
         background-color: color-secondary;
 
         & > .tree {
-            border-right-radius: 5px;
+            border-right-radius: @border-top-right-radius;
 
             & > :first-child {
-                border-top-right-radius: 5px;
+                border-top-right-radius: @border-top-right-radius;
             }
 
             & > :last-child {
-                border-bottom-right-radius: 5px;
+                border-bottom-right-radius: @border-bottom-right-radius;
             }
         }
 
@@ -49,7 +49,7 @@
         & .item + .item::before {
             display: block;
             content: "";
-            border-bottom: border-style-thicker( style: dashed );
+            border-bottom: border-thicker( style: dashed );
             margin: 0.5em 0;
         }
 
@@ -65,7 +65,7 @@
         }
 
         & .icon {
-            border: border-style();
+            border: border-default();
             border-radius: 5px;
             shadow-inner-drop-larger: color-shadow;
             background-color: color-secondary;
@@ -86,7 +86,7 @@
                 background-color: color-primary-lighter - rgba( 0, 0, 0, 0.4 );
                 width: 60%;
                 text-align: right;
-                border-sides: (top left) (border-style());
+                border-sides: (top left) (border-default());
                 border-radius: 3px 0;
                 shadow-inner-drop-smaller: color-shadow;
                 padding-right: 0.25em;

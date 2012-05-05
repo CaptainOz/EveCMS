@@ -1,6 +1,7 @@
 
 @import borders
 @import clickables
+@import colors
 @import selection
 @import shadows
 
@@ -13,9 +14,9 @@
         border-radius: 1em;
         user-select: none;
         user-drag: none;
-        border: 1px solid #444;
+        border: border-default( color-secondary );
         padding: 5px;
-        clear-button( #444 );
+        clear-button( color-secondary );
 
         & > .submenu {
             position: absolute;

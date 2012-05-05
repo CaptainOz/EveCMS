@@ -1,19 +1,28 @@
 
+@import colors
 @import vendorstyles
 
 box-shadow(){
     vendor-prop( box-shadow, arguments );
 }
 
-shadow-inner-drop( color ){
+shadow-inner-drop( color = shadow-color ){
     box-shadow: inset 3px 3px 10px color;
 }
 
-shadow-inner-drop-smaller( color ){
+shadow-inner-drop-smaller( color = shadow-color ){
     box-shadow: inset 1px 1px 6px color;
 }
 
-shadow-inner-drop-larger( color ){
+shadow-inner-drop-larger( color = shadow-color ){
     box-shadow: inset 5px 5px 25px color;
+}
+
+shadow-sunk( color = shadow-color ){
+    box-shadow: inset 3px 3px 6px color, inset -2px -2px 3px lighten( color, 25% );
+}
+
+shadow-outer-drop-larger( color = shadow-color ){
+    box-shadow: 8px 8px 16px color;
 }
 

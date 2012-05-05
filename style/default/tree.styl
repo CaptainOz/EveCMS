@@ -23,7 +23,7 @@
             padding-top: 0;
 
             &::before {
-                border-bottom: border-style();
+                border-bottom: border-default();
                 content: "";
                 width: 100%;
                 float: left;
@@ -34,14 +34,14 @@
         & > .subtree {
             display: none;
             margin: 0.5em 0 -0.25em 0.5em;
-            border-sides: ( top left ) ( border-style() );
+            border-sides: ( top left ) ( border-default() );
             border-top-left-radius: 5px;
             clear: both;
             overflow: hidden;
         }
 
         & > .chevron {
-            chevron-right: 0.45em color-primary;
+            chevron-right: 0.45em color-border;
             cursor: pointer;
         }
 
@@ -51,7 +51,7 @@
             }
 
             & > .chevron {
-                chevron-down: 0.45em color-primary;
+                chevron-down: 0.45em color-border;
             }
         }
     }

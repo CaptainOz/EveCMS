@@ -8,7 +8,7 @@
     & > .losers,
     & > .data > div,
     & > .winners {
-        border: 1px solid #aaa;
+        border: border-default();
     }
 
     & > .losers {
@@ -79,8 +79,8 @@
 
             &.player {
                 width: 128px;
-                height: 128px;
-                border: 1px solid #aaa;
+                height: @width;
+                border: border-default();
                 border-radius: 5px;
             }
 
@@ -90,7 +90,7 @@
 
                 & img {
                     width: 64px;
-                    height: 64px;
+                    height: @width;
                 }
             }
         }
