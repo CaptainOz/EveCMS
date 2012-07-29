@@ -1,5 +1,7 @@
 
 .settings.xml
+.settings
+.c9revisions/
 node_modules/
 
 # Ignore Eve icons.
