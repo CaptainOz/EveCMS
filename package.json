@@ -6,7 +6,7 @@
     "contributors"      : [],
     "scripts"           : {
         "start" : "sudo node ./start.js",
-        "test"  : "nodeunit ./tests/"
+        "test"  : "nodeunit ./tests/tests/"
     },
     "main"              : "./lib/evecms.js",
     "repository"        : {
@@ -14,9 +14,12 @@
         "url"   : "https://github.com/CaptainOz/EveCMS.git"
     },
     "keywords"          : [
+        "evecms",
+        "cms",
+        "eve",
+        "eveonline",
         "eve online",
         "gaming",
-        "cms",
         "killboard",
         "internet spaceships",
         "serious business"
@@ -24,7 +27,7 @@
     "dependencies"      : {
         "express"           : "2.5.x",
         "express-expose"    : "0.2.x",
-        "mysql"             : "0.9.x",
+        "mysql"             : "2.0.x",
         "socket.io"         : "0.9.x",
         "stylus"            : "0.26.x"
     },
